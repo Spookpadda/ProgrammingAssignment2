@@ -1,30 +1,28 @@
-## These functions create an list object to cache and retrieve the current 
-## matrix and to calculate and cache its inverse
+## These functions cache and retrieve a matrix object and its inverse using 
+## a list object including four storage and retrieval functions
 
 ## makeCacheMatrix takes a convertible square matrix as input and returns a
-## list object of four functions which when called: Set a new matrix, Get the
-## current matrix; Setinv - Cache another matrix (inverse of current matrix);
-## (Getinv) - retrieve this inverse matrix
-## the variables x & inv apply in the parent, makeCacheMatrix(),environment
+## list object of four functions, which when called: Set() - Store a new matrix; 
+## Get() - retrieve the current matrix; Setinv() - cache the inverse of the current
+## current matrix); Getinv() - retrieve this inverse matrix
+## the variables x & inv apply in the parent, makeCacheMatrix(),environment (<<-)
 
 makeCacheMatrix <- function(x = matrix()) {
-        ## makes a list of functions that cache and retrieve the matrix
-        ## and its inverse
-        inv <- NULL     ## local null variate; used for no cached inverse
+        ## makes a list of functions to store and retrieve a matrix and its inverse
+        inv <- NULL     ## local null variate to monitor the status of the cache
         set <- function(y) { ## function to set a new matrix y
                 x <<- y         ## set x (parent env) to new matrix y
                 inv <<- NULL    ## set inv(parent env) to no cached inverse
         }
-        get <- function() x     ## function to return current matrix x
-        ## either from makeCacheMatrix() or $set()
-        setinv <- function(inverse) inv <<- inverse
+        get <- function() x     ## return current matrix x
         ## cache inverse matrix as inv (parent env)
-        getinv <- function() inv
+        setinv <- function(inverse) inv <<- inverse
         ## return NULL or cached inverse matrix
+        getinv <- function() inv
+        ## return a list of four functions, called by name
         list(set = set, get = get,
              setinv = setinv,
              getinv = getinv)
-        ## return a list of four functions, called by name
 }
 
 ## cacheSolve takes a list created by makeCacheMatrix(), tests whether there is
